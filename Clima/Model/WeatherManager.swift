@@ -48,42 +48,26 @@ struct WeatherManager {
            // print(decodedData.name)
            // print(decodedData.main.temp)
             let id = decodedData.weather[0].id
-            print(getConditionName(weatherId: id))
+            let temp = decodedData.main.temp
+            let name = decodedData.name
+            let temStr = String(format:"%.1f",decodedData.main.temp)
+            
+            
+            
+            let weather = WeatherModel(conditionId: id, cityName: name, temperature: temp, temperatureString: temStr)
+            
+            
+            
+            
+            print(weather.conditionName)
+            print(weather.temperatureString)
             
         } catch {
             print(error)
         }
     }
     
-    func getConditionName(weatherId: Int) -> String {
-        var sfSubol = ""
-        
-        switch weatherId {
-        case 200..<300:
-       //     print("UIImage(systemName: "􀇒")")
-           // print("􀇒")
-            sfSubol = "􀇒"
-        case 300..<500:
-           // print("􀇄")
-            sfSubol = "􀇄"
-        case 500..<600:
-           // print("􀇆")
-            sfSubol = "􀇆"
-        case 600..<700:
-           // print("􀇎")
-            sfSubol = "􀇎"
-        case 700..<799:
-          //  print("􀇧")
-            sfSubol = "􀇧"
-        case 800:
-          //  print("􀆭")
-            sfSubol = "􀆭"
-        default:
-         //   print("􀇂")
-            sfSubol = "􀇂"
-        }
-        return sfSubol
-    }
+    
 }
 
 
