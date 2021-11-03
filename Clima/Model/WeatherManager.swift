@@ -45,13 +45,44 @@ struct WeatherManager {
         let decoder = JSONDecoder()
         do {
          let decodedData = try  decoder.decode(WeatherData.self, from: weatherData)
-            print(decodedData.name)
-            print(decodedData.main.temp)
-            print(decodedData.weather[0].description)
+           // print(decodedData.name)
+           // print(decodedData.main.temp)
+            let id = decodedData.weather[0].id
+            print(getConditionName(weatherId: id))
             
         } catch {
             print(error)
         }
+    }
+    
+    func getConditionName(weatherId: Int) -> String {
+        var sfSubol = ""
+        
+        switch weatherId {
+        case 200..<300:
+       //     print("UIImage(systemName: "􀇒")")
+           // print("􀇒")
+            sfSubol = "􀇒"
+        case 300..<500:
+           // print("􀇄")
+            sfSubol = "􀇄"
+        case 500..<600:
+           // print("􀇆")
+            sfSubol = "􀇆"
+        case 600..<700:
+           // print("􀇎")
+            sfSubol = "􀇎"
+        case 700..<799:
+          //  print("􀇧")
+            sfSubol = "􀇧"
+        case 800:
+          //  print("􀆭")
+            sfSubol = "􀆭"
+        default:
+         //   print("􀇂")
+            sfSubol = "􀇂"
+        }
+        return sfSubol
     }
 }
 
