@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 class WeatherViewController: UIViewController {
  
@@ -21,6 +22,8 @@ class WeatherViewController: UIViewController {
     
     
     var weatherManager = WeatherManager()
+    let locationManager = CLLocationManager()
+    
         
     
     
@@ -28,8 +31,12 @@ class WeatherViewController: UIViewController {
         override func viewDidLoad() {
         super.viewDidLoad()
             
+            locationManager.delegate = self
+            locationManager.requestWhenInUseAuthorization()
+            locationManager.requestLocation()
+            
             weatherManager.delegate = self
-        searchTextField.delegate = self
+            searchTextField.delegate = self
         
         
     }
@@ -84,10 +91,33 @@ extension WeatherViewController:  WeatherManagerDelegate {
             self.temperatureLabel.text = weather.temperatureString
             self.conditionImageView.image = UIImage(systemName: weather.conditionName)
        // print(String(format:"%.1f", weather.temperature))
+            
         }
     }
     
     func didFailWithError(error: Error) {
+        print(error)
+    }
+}
+
+//MARK: - CLLocationmanagedelegate
+
+
+extension WeatherViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print("Get location data")
+        if  let location = locations.last {
+            let lat = location.coordinate.latitude
+            let lon = location.coordinate.longitude
+            weatherManager.fetchWeather(latitude: lat, longitude: lon)
+            
+            
+            
+            
+        }
+        
+    }
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print(error)
     }
 }
