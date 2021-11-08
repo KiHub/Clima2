@@ -44,8 +44,14 @@ class WeatherViewController: UIViewController {
 
    
     
-  
+    @IBAction func currenLocationBottonPressed(_ sender: UIButton) {
+        locationManager.requestLocation()
+     
+    }
+    
 }
+
+
 
 //MARK: - Extensions
 
@@ -91,7 +97,7 @@ extension WeatherViewController:  WeatherManagerDelegate {
             self.temperatureLabel.text = weather.temperatureString
             self.conditionImageView.image = UIImage(systemName: weather.conditionName)
        // print(String(format:"%.1f", weather.temperature))
-            
+            self.cityLabel.text = weather.cityName
         }
     }
     
@@ -107,6 +113,7 @@ extension WeatherViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         print("Get location data")
         if  let location = locations.last {
+            locationManager.stopUpdatingLocation()
             let lat = location.coordinate.latitude
             let lon = location.coordinate.longitude
             weatherManager.fetchWeather(latitude: lat, longitude: lon)
@@ -121,3 +128,4 @@ extension WeatherViewController: CLLocationManagerDelegate {
         print(error)
     }
 }
+
